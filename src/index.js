@@ -1,4 +1,36 @@
-const app = require('./app');
+const express = require('express');
+const bodyParser = require('body-parser');
+const admin = require('firebase-admin');
 
-app.listen(3000);
-console.log('Server is running on port 3000');
+const app = express();
+const port = 3000;
+
+app.use(bodyParser.json());
+
+// Middleware para verificar el token
+const verificarToken = (req, res, next) => {
+  const token = req.headers['authorization'];       
+
+  if (!token) {
+    return res.status(403).json({ error: 'Token no proporcionado' });
+  }
+
+  admin.auth().verifyIdToken(token)
+    .then((decodedToken) => {
+      req.usuario = decodedToken.uid;
+      next();
+    })
+    .catch((error) => {
+      res.status(401).json({ error: 'Token inválido' });
+    });
+};
+
+// Rutas protegidas con middleware de verificación de token
+app.use(verificarToken);
+
+// CRUD de productos
+// ... Implementa las rutas y funciones para el CRUD de productos ...
+
+app.listen(port, () => {
+  console.log(`Servidor escuchando en http://localhost:${port}`);
+});
