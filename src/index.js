@@ -1,15 +1,11 @@
-// Zulia Azalia Davis Ayala #20172001712
-//Sergio Rolando Inestroza Amaya #20182002621
-const express = require('express');
+const app = require('./app'); // Importa la instancia de app desde app.js
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-
-const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
 
-// Middleware para verificar el token
+// Función para verificar el token
 const verificarToken = (req, res, next) => {
   const token = req.headers['authorization'];       
 
@@ -27,12 +23,15 @@ const verificarToken = (req, res, next) => {
     });
 };
 
-// Rutas protegidas con middleware de verificación de token
+// Usa el middleware de verificación de token
 app.use(verificarToken);
 
-// CRUD de productos
-// ... Implementa las rutas y funciones para el CRUD de productos ...
+// Aquí puedes agregar tus rutas para el CRUD de productos
+// Ejemplo:
+// app.get('/productos', (req, res) => {
+//     // Lógica para obtener productos
+// });
 
 app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
