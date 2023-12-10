@@ -5,7 +5,7 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-// Función para verificar el token
+
 const verificarToken = (req, res, next) => {
   const token = req.headers['authorization'];       
 
@@ -23,14 +23,10 @@ const verificarToken = (req, res, next) => {
     });
 };
 
-// Usa el middleware de verificación de token
+
 app.use(verificarToken);
 
-// Aquí puedes agregar tus rutas para el CRUD de productos
-// Ejemplo:
-// app.get('/productos', (req, res) => {
-//     // Lógica para obtener productos
-// });
+;
 
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);

@@ -10,12 +10,12 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-// Middleware
+
 app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.json());
 
-// Verificar Token Middleware
+
 const verificarToken = (req, res, next) => {
     const token = req.headers['authorization'];
 
@@ -23,6 +23,7 @@ const verificarToken = (req, res, next) => {
         return res.status(403).json({ error: 'Token no proporcionado' });
     }
 
+    const tokenSinBearer = token.split(' ')[1]; 
     jwt.verify(token, 'tuSecretKey', (err, decoded) => {
         if (err) {
             return res.status(401).json({ error: 'Token inválido' });
@@ -33,7 +34,6 @@ const verificarToken = (req, res, next) => {
     });
 };
 
-// Ruta de Autenticación
 app.post('/auth', async (req, res) => {
     const { username, password } = req.body;
 
@@ -63,7 +63,7 @@ app.post('/auth', async (req, res) => {
     }
 });
 
-// CRUD de Productos - Rutas Protegidas
+
 app.use('/productos', verificarToken);
 
 app.get('/productos', async (req, res) => {
@@ -120,7 +120,7 @@ app.delete('/productos/:id', async (req, res) => {
    
 });
 
-// Iniciar el servidor
+
 const port = 3001;
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
