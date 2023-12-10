@@ -1,3 +1,5 @@
+// Zulia Azalia Davis Ayala #20172001712
+//Sergio Rolando Inestroza Amaya #20182002621
 const admin = require('firebase-admin');
 const serviceAccount = require('./firebase-admin-key.json');
 
